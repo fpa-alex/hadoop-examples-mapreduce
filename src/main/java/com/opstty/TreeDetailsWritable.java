@@ -1,46 +1,76 @@
 package com.opstty;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.util.Date;
 
-public class TreesAgesEntity implements Writable {
+public class TreeDetailsWritable implements Writable {
 
-    private Text tree;
+    private IntWritable plantationYear;
 
-    private Date plantationYear;
+    private IntWritable district;
 
-    public TreesAgesEntity(Text tree, Date plantationYear){
-        this.tree = tree;
+    private Text word;
+
+    public TreeDetailsWritable() {
+        this.plantationYear = new IntWritable(0);
+        this.district = new IntWritable(0);
+        this.word = new Text();
+    }
+
+    public TreeDetailsWritable(IntWritable plantationYear, IntWritable district, Text word) {
         this.plantationYear = plantationYear;
+        this.district = district;
+        this.word = word;
     }
 
-    public Text getTree() {
-        return tree;
-    }
-
-    public void setTree(Text tree) {
-        this.tree = tree;
-    }
-
-    public Date getPlantationYear() {
+    public IntWritable getPlantationYear() {
         return plantationYear;
     }
 
-    public void setPlantationYear(Date plantationYear) {
+    public void setPlantationYear(IntWritable plantationYear) {
         this.plantationYear = plantationYear;
+    }
+
+    public IntWritable getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(IntWritable district) {
+        this.district = district;
+    }
+
+    public Text getWord() {
+        return word;
+    }
+
+    public void setWord(Text word) {
+        this.word = word;
     }
 
     @Override
     public void write(DataOutput dataOutput) throws IOException {
-
+        plantationYear.write(dataOutput);
+        district.write(dataOutput);
+        word.write(dataOutput);
     }
 
     @Override
     public void readFields(DataInput dataInput) throws IOException {
-    
+        plantationYear.readFields(dataInput);
+        district.readFields(dataInput);
+        word.readFields(dataInput);
+    }
+
+    @Override
+    public String toString() {
+        return "TreeDetailsWritable{" +
+                "plantationYear=" + plantationYear +
+                ", district=" + district +
+                ", word=" + word +
+                '}';
     }
 }
